@@ -16,3 +16,7 @@
 ### Mysql
 
 - [左右值无限极分类](https://github.com/Ya-hui/learning-notes/blob/master/mysql/infiniteClassification.md)
+
+### 设计模式
+- [概念](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/concept.md)
+- [单例模式](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/Single.php)
