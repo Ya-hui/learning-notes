@@ -1,6 +1,6 @@
 # learning-notes
 
-学习笔记、常见面试题、零碎的知识点整理，如果那里写的有错误欢迎指正，如果对您有所帮助请给个Star。
+学习笔记、零碎的知识点整理，如果那里写的有错误欢迎指正，如果对您有所帮助请给个Star。
 
 ## 目录
 
@@ -15,9 +15,11 @@
 
 ### Mysql
 
+- [事务](https://github.com/Ya-hui/learning-notes/blob/master/mysql/ACID.md)
 - [左右值无限极分类](https://github.com/Ya-hui/learning-notes/blob/master/mysql/infiniteClassification.md)
 
 ### 设计模式
 
 - [概念](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/concept.md)
+- [链式操作](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/ChainType.php))
 - [单例模式](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/Single.php)
