@@ -21,5 +21,5 @@
 ### 设计模式
 
 - [概念](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/concept.md)
-- [链式操作](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/ChainType.php))
+- [链式操作](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/ChainType.php)
 - [单例模式](https://github.com/Ya-hui/learning-notes/blob/master/design_patterns/Single.php)
