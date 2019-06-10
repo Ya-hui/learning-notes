@@ -12,6 +12,7 @@
 
 ### Redis
 
+- [乐观锁](https://github.com/Ya-hui/learning-notes/blob/master/redis/OptimisticLock.php)
 - [悲观锁](https://github.com/Ya-hui/learning-notes/blob/master/redis/PessimisticLock.php)
 
 ### Mysql
