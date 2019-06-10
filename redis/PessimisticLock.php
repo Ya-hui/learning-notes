@@ -1,36 +1,52 @@
 <?php
 /**
  * 悲观锁
- * 每次处理数据时都会加锁处理结束后释放锁，同一时刻多个请求都会等待,拿到锁在执行
  *
+ * 每次处理数据时都会加锁处理结束后释放锁，同一时刻多个请求都会等待,拿到锁在执行
+ * ps: 需要给锁加上过期时间以防止死锁产生
  * @author wyh <https://github.com/Ya-hui>
  */
-class PessimisticLock {
+class PessimisticLock
+{
+    /**
+     * redis 实例
+     *
+     * @var [type]
+     */
+    private $redis;
+    /**
+     * 连接配置文件
+     *
+     * @var [type]
+     */
     private $config = [
         'host'    => 'localhost',
         'port'    => 6379,
         'auth'    => '',
         'timeout' => 3
     ];
-    private $_redis;
     /**
      * 初始化
-     * @param Array $config redis连接设定
+     *
+     * @param Array $config redis连接配置
      */
-    public function __construct($config = []) {
+    public function __construct($config = [])
+    {
         $this->config  = $config + $this->config;
-        $this->_redis  = $this->connect();
+        $this->redis  = $this->connect();
     }
     /**
      * 获取锁
+     *
      * @param  String   $key     锁标识
      * @param  Function $success 锁获取成功回调函数
      * @param  Int      $expire  锁过期时间
      * @return Boolean
      */
-    public function lock($key, $success = null, $expire = 5) {
+    public function lock($key, $success = null, $expire = 5)
+    {
         do {
-            $is_lock = $this->_redis->set($key, time() + $expire, ['nx', 'ex' => $expire]);
+            $is_lock = $this->redis->set($key, time() + $expire, ['nx', 'ex' => $expire]);
             if ($is_lock && is_callable($success)) {
                 call_user_func($success);
                 // 释放锁
@@ -40,17 +56,21 @@ class PessimisticLock {
     }
     /**
      * 释放锁
-     * @param  String $key 锁标示
+     *
+     * @param  String $key 锁标识
      * @return void
      */
-    public function unlock($key) {
-        $this->_redis->del($key);
+    public function unlock($key)
+    {
+        $this->redis->del($key);
     }
     /**
      * 创建redis连接
+     *
      * @return Link
      */
-    private function connect() {
+    private function connect()
+    {
         try {
             $redis = new Redis();
             $redis->connect($this->config['host'], $this->config['port'], $this->config['timeout']);
@@ -60,16 +80,11 @@ class PessimisticLock {
         }
         return $redis;
     }
-    public function test() {
-        $a = $this->_redis->get('test');
-        $this->_redis->set('test', $a + 1);
-    }
 }
 $redisLocak = new PessimisticLock();
 // 定义锁标识
 $key        = 'mylock';
-$redisLocak->lock($key, function() use ($redisLocak) {
+$redisLocak->lock($key, function() {
     // 锁已成功拿到, 执行业务逻辑
-    $redisLocak->test();
-    echo '业务逻辑处理完成，锁自动释放';
+
 });
