@@ -11,7 +11,7 @@
 
 ### 事务隔离性
 
-如果不考虑事务隔离性可能会造成以下问题
+如果不考虑事务隔离性可能会造成以下问题：
 1. 脏读：一个事务内修改了数据，另一个事务读取并使用了这个数据
 2. 幻读：一个事务内修改了涉及全表的数据，另一个事务往这个表里面插入了新的数据，比如:A将表中age字段全部改为18，B就在这个时候插入了一条19的记录，当A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读
 3. 不可重复读：一个事务内连续读了两次数据，中间另一个事务修改了这个数据，导致第一个事务前后两次读的数据不一致
@@ -31,6 +31,7 @@ ps: 隔离级别越高，越能保证数据的完整性和一致性，但是对�
 
 下面测试下各个隔离级别的情况：
 ```sql
+-- 测试数据
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -41,7 +42,7 @@ INSERT INTO `user` VALUES ('1', '小明', '150'), ('2', '小红', '300'), ('3', 
 ```
 1. 未提交读
 
-    ![未提交度](https://github.com/Ya-hui/learning-notes/raw/master/mysql/test.png)
+    ![未提交读](https://github.com/Ya-hui/learning-notes/raw/master/mysql/test.png)
 
     从上图可看出客户端B还未提交，客户端A已经读到了客户端B修改过的数据，一旦客户端B的事务回滚，那么客户端A查询到的数据其实就是脏数据，要想解决这个问题可以采用提交读的隔离级别
 
@@ -56,8 +57,8 @@ INSERT INTO `user` VALUES ('1', '小明', '150'), ('2', '小红', '300'), ('3', 
     ![可重复读](https://github.com/Ya-hui/learning-notes/raw/master/mysql/test2.png)
 
     第10步接着执行了update user set balance = balance - 50 where id = 1; balance没有变成 100 - 50 = 50，很明显balance值用的是步骤7计算的所以是0
-    数据的一致性没有被破坏，可重复读的隔离级别下使用了MVCC机制，select操作不会更新版本号，是快照读（历史版本）；insert、update和delete会更新版本号，是当前读（当前版本）
-    在第12步开启了一个事务新增一条记录，在第16步修改表数据显示受影响行数4 出现幻读问题
+    数据的一致性没有被破坏，可重复读的隔离级别下使用了MVCC机制，当前事务中select操作不会更新版本号，是快照读（历史版本）；insert、update和delete会更新版本号，是当前读（当前版本）
+    在第12步开启了一个事务新增一条记录，第15步查询还是三条记录（当前事务中select操作不会更新版本号所以查询的数据还是快照）， 在第16步修改表数据显示受影响行数4再次查询出现4条记录（update操作更新了版本号） 出现幻读问题
 
 4. 串行化
 
