@@ -52,7 +52,7 @@ class PessimisticLock
                 // 释放锁
                 $this->unlock($key);
             }
-        } while (! $is_lock);
+        } while (!$is_lock);
     }
     /**
      * 释放锁
@@ -84,7 +84,6 @@ class PessimisticLock
 $redisLocak = new PessimisticLock();
 // 定义锁标识
 $key        = 'mylock';
-$redisLocak->lock($key, function() {
+$redisLocak->lock($key, function () {
     // 锁已成功拿到, 执行业务逻辑
-
 });
