@@ -7,6 +7,7 @@
 ### PHP
 
 - [字符串反转](https://github.com/Ya-hui/learning-notes/blob/master/php/stringFlip.md)
+- [IOS唯一设备码UDID获取](https://github.com/Ya-hui/learning-notes/blob/master/php/Udid.php)
 - [常用技巧(持续更新)](https://github.com/Ya-hui/learning-notes/blob/master/php/experience.md)
 
 ### Redis
